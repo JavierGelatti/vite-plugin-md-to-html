@@ -27,14 +27,16 @@
   "author": "Saurabh Daware <saurabhdaware99@gmail.com> (https://saurabhdaware.in)",
   "license": "MIT",
   "devDependencies": {
-    "highlightjs-calvera-dark": "^0.0.1",
-    "vite": "^3.0.9",
-    "vitest": "^0.5.5"
+    "@types/dedent": "^0.7.2",
+    "@types/node": "^22.10.10",
+    "highlightjs-calvera-dark": "^0.0.5",
+    "vite": "6.0.9",
+    "vitest": "^3.0.4"
   },
   "dependencies": {
     "dedent": "^0.7.0",
     "front-matter": "^4.0.2",
-    "markdown-it": "^12.3.2",
-    "markdown-it-highlightjs": "^3.6.0"
+    "markdown-it": "^14.1.0",
+    "markdown-it-highlightjs": "^4.2.0"
   }
 }

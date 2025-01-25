@@ -36,8 +36,8 @@ describe("plugin.transform()", () => {
     const mdPath = "./hello.md";
     expect(plugin.transform(mdSource, mdPath).code).toMatchInlineSnapshot(`
       "
-      export const attributes = {\\"hi\\":\\"hello\\"};
-      export const html = \\"<h2>Hello</h2>\\\\n<p>Hello <strong>Vitest</strong></p>\\\\n\\"
+      export const attributes = {"hi":"hello"};
+      export const html = "<h2>Hello</h2>\\n<p>Hello <strong>Vitest</strong></p>\\n"
       export default html;
       "
     `);
@@ -60,7 +60,7 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = \\"<h1>Hello</h1>\\\\n<pre><code class=\\\\\\"hljs language-js\\\\\\"><span class=\\\\\\"hljs-keyword\\\\\\">const</span> a = <span class=\\\\\\"hljs-number\\\\\\">3</span>;\\\\n</code></pre>\\\\n\\"
+        export const html = "<h1>Hello</h1>\\n<pre><code class=\\"hljs language-js\\"><span class=\\"hljs-keyword\\">const</span> a = <span class=\\"hljs-number\\">3</span>;\\n</code></pre>\\n"
         export default html;
         "
       `);
@@ -74,7 +74,7 @@ describe("plugin.transform()", () => {
     ).toMatchInlineSnapshot(`
       "
       export const attributes = {};
-      export const html = \\"<h1>Hello</h1>\\\\n<pre><code class=\\\\\\"language-js\\\\\\">const a = 3;\\\\n</code></pre>\\\\n\\"
+      export const html = "<h1>Hello</h1>\\n<pre><code class=\\"language-js\\">const a = 3;\\n</code></pre>\\n"
       export default html;
       "
     `);
@@ -98,15 +98,15 @@ describe("plugin.transform()", () => {
     pluginWithResolves.configResolved({ build: { ssr: true } });
     expect(removeAbsLinks(pluginWithResolves.transform(mdSource, mdPath).code))
       .toMatchInlineSnapshot(`
-        "import mdLink0 from \\"./example.png?url\\";
-        import mdLink1 from \\"./hello.jpeg?url\\";
-        
+        "import mdLink0 from "./example.png?url";
+        import mdLink1 from "./hello.jpeg?url";
+
         export const attributes = {};
-        export const html = \`<script type=\\"module\\">import \\"./example.png?url\\";
-        import \\"./hello.jpeg?url\\";
+        export const html = \`<script type="module">import "./example.png?url";
+        import "./hello.jpeg?url";
         </script><h2>Hello</h2>
-        <p><img src=\\"\${mdLink0}\\" alt=\\"example\\"></p>
-        <img alt=\\"hello\\" src=\\"\${mdLink1}\\" />\`;
+        <p><img src="\${mdLink0}" alt="example"></p>
+        <img alt="hello" src="\${mdLink1}" />\`;
         export default html;
         "
       `);
@@ -119,7 +119,7 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = \\"<h2>Hello</h2>\\\\n<p><img src=\\\\\\"./example.png\\\\\\" alt=\\\\\\"example\\\\\\"></p>\\\\n<img alt=\\\\\\"hello\\\\\\" src=\\\\\\"./hello.jpeg\\\\\\" />\\"
+        export const html = "<h2>Hello</h2>\\n<p><img src=\\"./example.png\\" alt=\\"example\\"></p>\\n<img alt=\\"hello\\" src=\\"./hello.jpeg\\" />"
         export default html;
         "
       `);
@@ -144,14 +144,14 @@ describe("plugin.transform()", () => {
     pluginWithResolves.configResolved({ build: { ssr: true } });
     expect(removeAbsLinks(pluginWithResolves.transform(mdSource, mdPath).code))
       .toMatchInlineSnapshot(`
-        "import mdLink0 from \\"./example.png?url\\";
-        
+        "import mdLink0 from "./example.png?url";
+
         export const attributes = {};
-        export const html = \`<script type=\\"module\\">import \\"./example.png?url\\";
+        export const html = \`<script type="module">import "./example.png?url";
         </script><h2>Hello</h2>
-        <p><img src=\\"https://hello.com/example.png\\" alt=\\"example\\">
-        <img src=\\"\${mdLink0}\\" alt=\\"example\\"></p>
-        <img alt=\\"hello\\" src=\\"https://example.com/hello.jpeg\\" />\`;
+        <p><img src="https://hello.com/example.png" alt="example">
+        <img src="\${mdLink0}" alt="example"></p>
+        <img alt="hello" src="https://example.com/hello.jpeg" />\`;
         export default html;
         "
       `);
@@ -172,11 +172,11 @@ describe("plugin.transform()", () => {
     pluginWithResolves.configResolved({ build: { ssr: false } });
     expect(removeAbsLinks(pluginWithResolves.transform(mdSource, mdPath).code))
       .toMatchInlineSnapshot(`
-        "import mdLink0 from \\"./example.png?url\\";
-        
+        "import mdLink0 from "./example.png?url";
+
         export const attributes = {};
         export const html = \`<h2>Hello</h2>
-        <p><img src=\\"\${mdLink0}\\" alt=\\"example\\"></p>
+        <p><img src="\${mdLink0}" alt="example"></p>
         \`;
         export default html;
         "
@@ -204,7 +204,7 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = \\"<h2>Hello</h2>/n<p><img src=/\\"https://hello.com/example.png/\\" alt=/\\"example/\\">/n<img src=/\\"./example.png/\\" alt=/\\"example/\\"></p>/n<img alt=/\\"hello/\\" src=/\\"https://example.com/hello.jpeg/\\" />\\"
+        export const html = "<h2>Hello</h2>/n<p><img src=/"https://hello.com/example.png/" alt=/"example/">/n<img src=/"./example.png/" alt=/"example/"></p>/n<img alt=/"hello/" src=/"https://example.com/hello.jpeg/" />"
         export default html;
         "
       `);
@@ -228,7 +228,7 @@ describe("EXPERIMENTAL_md()", () => {
       ~~~
     `).toMatchInlineSnapshot(`
       "<h1>Hello</h1>
-      <pre><code class=\\"hljs language-js\\"><span class=\\"hljs-keyword\\">const</span> a = <span class=\\"hljs-number\\">3</span>;
+      <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> a = <span class="hljs-number">3</span>;
       </code></pre>
       "
     `);
@@ -243,7 +243,7 @@ describe("EXPERIMENTAL_md()", () => {
       ~~~
     `).toMatchInlineSnapshot(`
       "<h1>Hello</h1>
-      <pre><code class=\\"language-js\\">const a = 3;
+      <pre><code class="language-js">const a = 3;
       </code></pre>
       "
     `);

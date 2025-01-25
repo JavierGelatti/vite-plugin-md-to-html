@@ -56,7 +56,7 @@ describe("markdownToHTML()", () => {
 
     expect(mdToHTML(testMd).html).toMatchInlineSnapshot(`
       "<h1>Hello</h1>
-      <pre><code class=\\"language-js\\">const a = 3;
+      <pre><code class="language-js">const a = 3;
       </code></pre>
       "
     `);
@@ -72,7 +72,7 @@ describe("markdownToHTML()", () => {
 
     expect(mdToHTML(testMd).html).toMatchInlineSnapshot(`
       "<h1>Hello</h1>
-      <p><a href=\\"https://abelljs.org/\\">https://abelljs.org/</a></p>
+      <p><a href="https://abelljs.org/">https://abelljs.org/</a></p>
       "
     `);
 
@@ -105,7 +105,7 @@ describe("markdownToHTML()", () => {
       }).html
     ).toMatchInlineSnapshot(`
       "<h1>Hello</h1>
-      <pre><code class=\\"hljs language-js\\"><span class=\\"hljs-keyword\\">const</span> a = <span class=\\"hljs-number\\">3</span>;
+      <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> a = <span class="hljs-number">3</span>;
       </code></pre>
       "
     `);

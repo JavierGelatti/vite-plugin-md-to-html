@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "noEmit": true,
+    "types": ["node"],
+  },
+  "include": ["types.d.ts", "plugin", "src"],
+}
