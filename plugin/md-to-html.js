@@ -22,6 +22,7 @@ const defaultPluginOptions = {
     linkify: true,
   },
   highlightJs: {},
+  markdownItInit: mIt => mIt,
 };
 
 /**
@@ -52,6 +53,8 @@ export const mdToHTML = (mdSource, userPluginOptions = {}) => {
         register: pluginOptions.highlightJs.register || {},
       });
     }
+
+    markdown = pluginOptions.markdownItInit(markdown);
   }
 
   const fmObject = fm(mdSource);

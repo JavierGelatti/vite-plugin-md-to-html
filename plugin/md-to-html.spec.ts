@@ -110,4 +110,19 @@ describe("markdownToHTML()", () => {
       "
     `);
   });
+
+  test("should allow to replace the markdown instance used", () => {
+    const testMd = d`<div>HTML</div>`;
+
+    expect(
+        mdToHTML(testMd, {
+          markdownIt: { html: true },
+          markdownItInit: markdownIt =>
+              markdownIt.set({ html: false }),
+        }).html
+    ).toMatchInlineSnapshot(`
+      "<p>&lt;div&gt;HTML&lt;/div&gt;</p>
+      "
+    `);
+  });
 });

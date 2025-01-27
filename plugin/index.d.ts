@@ -1,6 +1,9 @@
+import MarkdownIt from "markdown-it";
+
 export type PluginOptions =
   | {
       markdownIt?: any;
+      markdownItInit?: (markdownIt: MarkdownIt) => MarkdownIt;
       syntaxHighlighting?: boolean;
       /** If you have local reference to <img src="./someimage.png" />, this option will add import for the image on top and add dynamic url */
       resolveImageLinks?: boolean;
