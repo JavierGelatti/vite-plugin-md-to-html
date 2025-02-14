@@ -37,7 +37,7 @@ describe("plugin.transform()", () => {
     expect(plugin.transform(mdSource, mdPath).code).toMatchInlineSnapshot(`
       "
       export const attributes = {"hi":"hello"};
-      export const html = "<h2>Hello</h2>\\n<p>Hello <strong>Vitest</strong></p>\\n"
+      export const html = "<h2>Hello</h2>\\n<p>Hello <strong>Vitest</strong></p>\\n";
       export default html;
       "
     `);
@@ -60,7 +60,7 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = "<h1>Hello</h1>\\n<pre><code class=\\"hljs language-js\\"><span class=\\"hljs-keyword\\">const</span> a = <span class=\\"hljs-number\\">3</span>;\\n</code></pre>\\n"
+        export const html = "<h1>Hello</h1>\\n<pre><code class=\\"hljs language-js\\"><span class=\\"hljs-keyword\\">const</span> a = <span class=\\"hljs-number\\">3</span>;\\n</code></pre>\\n";
         export default html;
         "
       `);
@@ -74,7 +74,7 @@ describe("plugin.transform()", () => {
     ).toMatchInlineSnapshot(`
       "
       export const attributes = {};
-      export const html = "<h1>Hello</h1>\\n<pre><code class=\\"language-js\\">const a = 3;\\n</code></pre>\\n"
+      export const html = "<h1>Hello</h1>\\n<pre><code class=\\"language-js\\">const a = 3;\\n</code></pre>\\n";
       export default html;
       "
     `);
@@ -119,7 +119,7 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = "<h2>Hello</h2>\\n<p><img src=\\"./example.png\\" alt=\\"example\\"></p>\\n<img alt=\\"hello\\" src=\\"./hello.jpeg\\" />"
+        export const html = "<h2>Hello</h2>\\n<p><img src=\\"./example.png\\" alt=\\"example\\"></p>\\n<img alt=\\"hello\\" src=\\"./hello.jpeg\\" />";
         export default html;
         "
       `);
@@ -204,10 +204,41 @@ describe("plugin.transform()", () => {
       .toMatchInlineSnapshot(`
         "
         export const attributes = {};
-        export const html = "<h2>Hello</h2>/n<p><img src=/"https://hello.com/example.png/" alt=/"example/">/n<img src=/"./example.png/" alt=/"example/"></p>/n<img alt=/"hello/" src=/"https://example.com/hello.jpeg/" />"
+        export const html = "<h2>Hello</h2>/n<p><img src=/"https://hello.com/example.png/" alt=/"example/">/n<img src=/"./example.png/" alt=/"example/"></p>/n<img alt=/"hello/" src=/"https://example.com/hello.jpeg/" />";
         export default html;
         "
       `);
+  });
+
+  test("should work when using the tilde <`> character while adding imports", () => {
+    const mdSource = d`
+    ## Hello
+
+    <img alt="hello" src="./hello.jpeg" />
+    \`\`\`
+        const x = \`Hi\`;
+    \`\`\`
+    `;
+
+    const mdPath = "./hello.md";
+
+    const plugin = vitePluginMdToHTML({resolveImageLinks: true});
+
+    plugin.configResolved({ build: { ssr: true } });
+    expect(removeAbsLinks(plugin.transform(mdSource, mdPath).code))
+        .toMatchInlineSnapshot(`
+          "import mdLink0 from "./hello.jpeg?url";
+
+          export const attributes = {};
+          export const html = \`<script type="module">import "./hello.jpeg?url";
+          </script><h2>Hello</h2>
+          <img alt="hello" src="\${mdLink0}" />
+          /u0060/u0060/u0060
+              const x = /u0060Hi/u0060;
+          /u0060/u0060/u0060\`;
+          export default html;
+          "
+        `);
   });
 });
 

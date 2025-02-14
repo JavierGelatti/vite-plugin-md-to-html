@@ -43,8 +43,8 @@ const createJSExports = ({
   clientSideImageImportScript,
 }) => {
   const htmlExport = importDeclarations
-    ? `export const html = \`${clientSideImageImportScript}${html}\`;`
-    : `export const html = ${JSON.stringify(html)}`;
+    ? `export const html = \`${clientSideImageImportScript}${html.replaceAll("`", "\\u0060")}\`;`
+    : `export const html = ${JSON.stringify(html)};`;
   const jsSrc = `${importDeclarations}
 export const attributes = ${JSON.stringify(attributes)};
 ${htmlExport}
